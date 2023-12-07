@@ -10,6 +10,25 @@ document.addEventListener("DOMContentLoaded", function () {
         displayCharacters(characters);
 
         document.body.style.backgroundColor = getColorBasedOnId(locationId);
+
+        const csrfToken = document.querySelector(
+            'meta[name="csrf-token"]'
+        ).content;
+
+        characters.forEach(async (character) => {
+            await fetch("/guardar-personaje", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrfToken,
+                },
+                body: JSON.stringify({
+                    name: character.name,
+                    status: character.status,
+                    species: character.species,
+                }),
+            });
+        });
     });
 
     async function getCharactersByLocation(locationId) {

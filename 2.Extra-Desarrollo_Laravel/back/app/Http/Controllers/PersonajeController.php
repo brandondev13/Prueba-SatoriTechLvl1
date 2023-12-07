@@ -9,15 +9,14 @@ class PersonajeController extends Controller
 {
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'status' => 'required',
-            'species' => 'required',
-        ]);
+        $personaje = new Personaje();
+        $personaje->name = $request->input('name');
+        $personaje->status = $request->input('status');
+        $personaje->species = $request->input('species');
 
-        Personaje::create($data);
+        $personaje->save();
 
-        return response()->json(['message' => 'Personaje guardado correctamente']);
+        return response()->json(['message' => 'Personaje guardado exitosamente'], 200);
     }
 
     public function index()
